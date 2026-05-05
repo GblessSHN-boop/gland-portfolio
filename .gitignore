@@ -1,0 +1,40 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Local config / secret
+backend/config.py
+.env
+*.env
+
+# Keep config example
+!backend/config.example.py
+
+# Local database
+*.sqlite
+*.sqlite3
+*.db
+
+# Upload files
+backend/uploads/cv/*
+backend/uploads/images/*
+backend/uploads/videos/*
+
+# Keep upload folders
+!backend/uploads/cv/.gitkeep
+!backend/uploads/images/.gitkeep
+!backend/uploads/videos/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
