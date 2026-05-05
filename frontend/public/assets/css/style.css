@@ -1148,3 +1148,104 @@ body.is-video-locked {
         bottom: 12px;
     }
 }
+
+.scroll-video-section {
+    position: relative !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    background: #050505;
+    padding: clamp(30px, 5svh, 48px) clamp(28px, 4vw, 56px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    box-sizing: border-box;
+}
+
+.scroll-video-sticky {
+    position: relative !important;
+    top: auto !important;
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+.video-stage {
+    width: min(1220px, 100%) !important;
+    margin: 0 auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.video-title {
+    color: #ffffff;
+    margin-bottom: clamp(18px, 3svh, 28px) !important;
+}
+
+.video-title p {
+    margin-bottom: 12px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.74;
+}
+
+.video-title h2 {
+    font-family: "Anton", Impact, sans-serif;
+    font-size: clamp(46px, 5.4vw, 82px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+}
+
+.video-shell {
+    position: relative !important;
+    width: 100%;
+    height: clamp(330px, 56svh, 570px) !important;
+    min-height: 0 !important;
+    overflow: hidden;
+    border-radius: 26px;
+    background: #111111;
+    box-shadow: 0 34px 100px rgba(0, 0, 0, 0.68);
+}
+
+.video-shell video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #050505;
+}
+
+.video-overlay,
+.video-progress {
+    display: none !important;
+}
+
+.after-video-section {
+    min-height: 100svh;
+    background: #d9d9d9;
+}
+
+@media (max-width: 768px) {
+    .scroll-video-section {
+        height: 100svh !important;
+        min-height: 100svh !important;
+        padding: 30px 18px !important;
+    }
+
+    .video-title h2 {
+        font-size: clamp(40px, 12vw, 62px);
+    }
+
+    .video-shell {
+        height: clamp(260px, 50svh, 480px) !important;
+        border-radius: 20px;
+    }
+}

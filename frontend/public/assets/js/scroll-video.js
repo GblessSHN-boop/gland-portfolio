@@ -2,15 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = document.querySelector(".scroll-video-section");
     const video = document.querySelector("#scroll-video");
     const shell = document.querySelector("#video-shell");
-    const overlay = document.querySelector("#video-overlay");
-    const progressBar = document.querySelector("#video-progress-bar");
 
     if (!section || !video || !shell) return;
 
     let state = "idle";
     let lastScrollY = window.scrollY;
     let touchStartY = 0;
-    let progressFrame = null;
     let isSnapping = false;
 
     video.muted = true;
@@ -22,39 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return section.getBoundingClientRect().top + window.scrollY;
     }
 
-    function setOverlayText(title, subtitle) {
-        if (!overlay) return;
-
-        const titleElement = overlay.querySelector("span");
-        const subtitleElement = overlay.querySelector("small");
-
-        if (titleElement) titleElement.textContent = title;
-        if (subtitleElement) subtitleElement.textContent = subtitle;
-    }
-
-    function updateProgress() {
-        if (!progressBar || !Number.isFinite(video.duration) || video.duration <= 0) return;
-
-        const progress = Math.min(video.currentTime / video.duration, 1);
-        progressBar.style.transform = `scaleX(${progress})`;
-    }
-
-    function startProgressLoop() {
-        updateProgress();
-
-        if (state === "playing") {
-            progressFrame = requestAnimationFrame(startProgressLoop);
-        }
-    }
-
-    function stopProgressLoop() {
-        if (!progressFrame) return;
-
-        cancelAnimationFrame(progressFrame);
-        progressFrame = null;
-    }
-
-    function forceScrollToVideoTop() {
+    function snapToVideoTop() {
         const targetTop = getSectionTop();
         const html = document.documentElement;
         const previousBehavior = html.style.scrollBehavior;
@@ -70,8 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function resetVideo() {
-        stopProgressLoop();
-
         state = "idle";
 
         shell.classList.remove("is-playing", "is-started", "is-completed");
@@ -83,18 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             console.warn("Video reset skipped:", error);
         }
-
-        if (progressBar) {
-            progressBar.style.transform = "scaleX(0)";
-        }
-
-        setOverlayText("Video akan berjalan otomatis", "Scroll ke bawah terbuka setelah video selesai.");
     }
 
     function completeVideo() {
         if (state === "completed") return;
-
-        stopProgressLoop();
 
         state = "completed";
 
@@ -102,9 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
         shell.classList.add("is-completed");
         section.classList.remove("is-video-active");
         section.classList.add("is-video-completed");
-
-        updateProgress();
-        setOverlayText("Video selesai", "Sekarang kamu bisa lanjut scroll ke bawah.");
     }
 
     function playVideo() {
@@ -116,8 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
         shell.classList.remove("is-completed");
         section.classList.add("is-video-active");
 
-        setOverlayText("Video sedang berjalan", "Scroll ke bawah akan terbuka setelah video selesai.");
-
         try {
             video.currentTime = 0;
         } catch (error) {
@@ -127,39 +77,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const playPromise = video.play();
 
         if (playPromise !== undefined) {
-            playPromise
-                .then(() => {
-                    startProgressLoop();
-                })
-                .catch((error) => {
-                    console.warn("Autoplay video tertahan:", error);
-
-                    state = "waiting";
-                    shell.classList.remove("is-playing");
-
-                    setOverlayText("Klik video untuk memulai", "Scroll ke bawah tetap dikunci sebelum video selesai.");
-                });
-        } else {
-            startProgressLoop();
+            playPromise.catch((error) => {
+                console.warn("Autoplay video tertahan:", error);
+                state = "waiting";
+                shell.classList.remove("is-playing");
+            });
         }
     }
 
     function startVideoSection() {
         if (state !== "idle") return;
 
-        forceScrollToVideoTop();
+        snapToVideoTop();
 
         requestAnimationFrame(() => {
             playVideo();
         });
     }
 
-    function sectionIsCompletelyPassedFromTop() {
-        const sectionTop = getSectionTop();
-        return window.scrollY >= sectionTop - 2;
+    function sectionReachedTop() {
+        return window.scrollY >= getSectionTop() - 2;
     }
 
-    function videoSectionIsFullyGoneBelow() {
+    function sectionGoneBelowViewport() {
         const rect = section.getBoundingClientRect();
         return rect.top >= window.innerHeight - 4;
     }
@@ -169,15 +109,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const scrollingDown = currentY > lastScrollY;
         const sectionTop = getSectionTop();
 
-        if (state === "idle" && scrollingDown && sectionIsCompletelyPassedFromTop()) {
+        if (state === "idle" && scrollingDown && sectionReachedTop()) {
             startVideoSection();
         }
 
         if ((state === "playing" || state === "waiting") && currentY > sectionTop + 2) {
-            forceScrollToVideoTop();
+            snapToVideoTop();
         }
 
-        if ((state === "playing" || state === "waiting" || state === "completed") && videoSectionIsFullyGoneBelow()) {
+        if ((state === "playing" || state === "waiting" || state === "completed") && sectionGoneBelowViewport()) {
             resetVideo();
         }
 
@@ -192,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.deltaY > 0) {
             event.preventDefault();
             event.stopPropagation();
-            forceScrollToVideoTop();
+            snapToVideoTop();
         }
     }
 
@@ -204,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (downKeys.includes(event.key)) {
             event.preventDefault();
             event.stopPropagation();
-            forceScrollToVideoTop();
+            snapToVideoTop();
         }
     }
 
@@ -221,15 +161,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (movingDownPage) {
             event.preventDefault();
             event.stopPropagation();
-            forceScrollToVideoTop();
+            snapToVideoTop();
         }
     }
 
     video.addEventListener("ended", completeVideo);
 
     video.addEventListener("timeupdate", () => {
-        updateProgress();
-
         if (!Number.isFinite(video.duration) || video.duration <= 0) return;
 
         const remaining = video.duration - video.currentTime;
@@ -241,13 +179,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     video.addEventListener("error", () => {
         console.warn("Video gagal dimuat. Pastikan file berada di assets/videos/scroll-video.mp4");
-
         state = "completed";
         shell.classList.remove("is-playing");
         shell.classList.add("is-completed");
-
-        updateProgress();
-        setOverlayText("Video gagal dimuat", "Scroll ke bawah dibuka.");
     });
 
     shell.addEventListener("click", () => {
