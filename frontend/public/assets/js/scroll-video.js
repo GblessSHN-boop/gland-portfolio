@@ -1,146 +1,267 @@
-const scrollVideo = document.getElementById("scroll-video");
-const videoSection = document.querySelector(".scroll-video-section");
-const videoShell = document.getElementById("video-shell");
-const progressBar = document.getElementById("video-progress-bar");
+document.addEventListener("DOMContentLoaded", () => {
+    const section = document.querySelector(".scroll-video-section");
+    const video = document.querySelector("#scroll-video");
+    const shell = document.querySelector("#video-shell");
+    const overlay = document.querySelector("#video-overlay");
+    const progressBar = document.querySelector("#video-progress-bar");
 
-const scrubState = {
-    duration: 0,
-    targetProgress: 0,
-    smoothProgress: 0,
-    ready: false,
-    rafId: null
-};
+    if (!section || !video || !shell) return;
 
-function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-}
+    let state = "idle";
+    let lastScrollY = window.scrollY;
+    let touchStartY = 0;
+    let progressFrame = null;
+    let isSnapping = false;
 
-function getScrollProgress() {
-    if (!videoSection) return 0;
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = "auto";
+    video.controls = false;
 
-    const rect = videoSection.getBoundingClientRect();
-    const scrollableDistance = videoSection.offsetHeight - window.innerHeight;
-
-    if (scrollableDistance <= 0) return 0;
-
-    return clamp(-rect.top / scrollableDistance, 0, 1);
-}
-
-function setScrollDistance() {
-    if (!videoSection) return;
-
-    const safeDuration = Number.isFinite(scrubState.duration) && scrubState.duration > 0
-        ? scrubState.duration
-        : 10;
-
-    const pxPerSecond = window.innerWidth <= 768 ? 380 : 520;
-    const minimumDistance = window.innerHeight * 2.8;
-    const dynamicDistance = safeDuration * pxPerSecond;
-    const finalDistance = Math.max(minimumDistance, dynamicDistance);
-
-    videoSection.style.setProperty(
-        "--scroll-height",
-        `${window.innerHeight + finalDistance}px`
-    );
-}
-
-function updateVideoUI(progress) {
-    if (videoShell) {
-        videoShell.classList.toggle("is-started", progress > 0.015);
+    function getSectionTop() {
+        return section.getBoundingClientRect().top + window.scrollY;
     }
 
-    if (progressBar) {
+    function setOverlayText(title, subtitle) {
+        if (!overlay) return;
+
+        const titleElement = overlay.querySelector("span");
+        const subtitleElement = overlay.querySelector("small");
+
+        if (titleElement) titleElement.textContent = title;
+        if (subtitleElement) subtitleElement.textContent = subtitle;
+    }
+
+    function updateProgress() {
+        if (!progressBar || !Number.isFinite(video.duration) || video.duration <= 0) return;
+
+        const progress = Math.min(video.currentTime / video.duration, 1);
         progressBar.style.transform = `scaleX(${progress})`;
     }
-}
 
-function renderVideoScrub() {
-    if (scrollVideo && scrubState.ready) {
-        scrubState.targetProgress = getScrollProgress();
+    function startProgressLoop() {
+        updateProgress();
 
-        const distance = Math.abs(scrubState.targetProgress - scrubState.smoothProgress);
-        const ease = distance > 0.22 ? 0.13 : 0.085;
+        if (state === "playing") {
+            progressFrame = requestAnimationFrame(startProgressLoop);
+        }
+    }
 
-        scrubState.smoothProgress +=
-            (scrubState.targetProgress - scrubState.smoothProgress) * ease;
+    function stopProgressLoop() {
+        if (!progressFrame) return;
 
-        if (Math.abs(scrubState.targetProgress - scrubState.smoothProgress) < 0.0008) {
-            scrubState.smoothProgress = scrubState.targetProgress;
+        cancelAnimationFrame(progressFrame);
+        progressFrame = null;
+    }
+
+    function forceScrollToVideoTop() {
+        const targetTop = getSectionTop();
+        const html = document.documentElement;
+        const previousBehavior = html.style.scrollBehavior;
+
+        isSnapping = true;
+        html.style.scrollBehavior = "auto";
+        window.scrollTo(0, targetTop);
+
+        requestAnimationFrame(() => {
+            html.style.scrollBehavior = previousBehavior;
+            isSnapping = false;
+        });
+    }
+
+    function resetVideo() {
+        stopProgressLoop();
+
+        state = "idle";
+
+        shell.classList.remove("is-playing", "is-started", "is-completed");
+        section.classList.remove("is-video-active", "is-video-completed");
+
+        try {
+            video.pause();
+            video.currentTime = 0;
+        } catch (error) {
+            console.warn("Video reset skipped:", error);
         }
 
-        const maxTime = Math.max(0, scrubState.duration - 0.04);
-        const nextTime = clamp(scrubState.smoothProgress * scrubState.duration, 0, maxTime);
-
-        if (Math.abs(scrollVideo.currentTime - nextTime) > 0.012) {
-            try {
-                scrollVideo.currentTime = nextTime;
-            } catch (error) {
-                console.warn("Video scrubbing belum siap:", error);
-            }
+        if (progressBar) {
+            progressBar.style.transform = "scaleX(0)";
         }
 
-        updateVideoUI(scrubState.smoothProgress);
+        setOverlayText("Video akan berjalan otomatis", "Scroll ke bawah terbuka setelah video selesai.");
     }
 
-    scrubState.rafId = requestAnimationFrame(renderVideoScrub);
-}
+    function completeVideo() {
+        if (state === "completed") return;
 
-function prepareScrollVideo() {
-    if (!scrollVideo) return;
+        stopProgressLoop();
 
-    scrubState.duration = scrollVideo.duration;
+        state = "completed";
 
-    if (!Number.isFinite(scrubState.duration) || scrubState.duration <= 0) {
-        return;
+        shell.classList.remove("is-playing");
+        shell.classList.add("is-completed");
+        section.classList.remove("is-video-active");
+        section.classList.add("is-video-completed");
+
+        updateProgress();
+        setOverlayText("Video selesai", "Sekarang kamu bisa lanjut scroll ke bawah.");
     }
 
-    scrubState.ready = true;
-    scrollVideo.pause();
+    function playVideo() {
+        if (state === "playing" || state === "completed") return;
 
-    try {
-        scrollVideo.currentTime = 0.01;
-    } catch (error) {
-        console.warn("Frame awal video belum bisa disiapkan:", error);
+        state = "playing";
+
+        shell.classList.add("is-playing", "is-started");
+        shell.classList.remove("is-completed");
+        section.classList.add("is-video-active");
+
+        setOverlayText("Video sedang berjalan", "Scroll ke bawah akan terbuka setelah video selesai.");
+
+        try {
+            video.currentTime = 0;
+        } catch (error) {
+            console.warn("Video belum siap direset:", error);
+        }
+
+        const playPromise = video.play();
+
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    startProgressLoop();
+                })
+                .catch((error) => {
+                    console.warn("Autoplay video tertahan:", error);
+
+                    state = "waiting";
+                    shell.classList.remove("is-playing");
+
+                    setOverlayText("Klik video untuk memulai", "Scroll ke bawah tetap dikunci sebelum video selesai.");
+                });
+        } else {
+            startProgressLoop();
+        }
     }
 
-    setScrollDistance();
-    updateVideoUI(0);
-}
+    function startVideoSection() {
+        if (state !== "idle") return;
 
-function initScrollVideo() {
-    if (!scrollVideo || !videoSection) return;
+        forceScrollToVideoTop();
 
-    scrollVideo.muted = true;
-    scrollVideo.playsInline = true;
-    scrollVideo.preload = "auto";
-    scrollVideo.pause();
-
-    if (scrollVideo.readyState >= 1) {
-        prepareScrollVideo();
-    } else {
-        scrollVideo.addEventListener("loadedmetadata", prepareScrollVideo, { once: true });
+        requestAnimationFrame(() => {
+            playVideo();
+        });
     }
 
-    scrollVideo.addEventListener("canplay", () => {
-        if (!scrubState.ready) {
-            prepareScrollVideo();
+    function sectionIsCompletelyPassedFromTop() {
+        const sectionTop = getSectionTop();
+        return window.scrollY >= sectionTop - 2;
+    }
+
+    function videoSectionIsFullyGoneBelow() {
+        const rect = section.getBoundingClientRect();
+        return rect.top >= window.innerHeight - 4;
+    }
+
+    function checkScrollPosition() {
+        const currentY = window.scrollY;
+        const scrollingDown = currentY > lastScrollY;
+        const sectionTop = getSectionTop();
+
+        if (state === "idle" && scrollingDown && sectionIsCompletelyPassedFromTop()) {
+            startVideoSection();
+        }
+
+        if ((state === "playing" || state === "waiting") && currentY > sectionTop + 2) {
+            forceScrollToVideoTop();
+        }
+
+        if ((state === "playing" || state === "waiting" || state === "completed") && videoSectionIsFullyGoneBelow()) {
+            resetVideo();
+        }
+
+        if (!isSnapping) {
+            lastScrollY = currentY;
+        }
+    }
+
+    function preventDownScroll(event) {
+        if (state !== "playing" && state !== "waiting") return;
+
+        if (event.deltaY > 0) {
+            event.preventDefault();
+            event.stopPropagation();
+            forceScrollToVideoTop();
+        }
+    }
+
+    function handleKeyDown(event) {
+        if (state !== "playing" && state !== "waiting") return;
+
+        const downKeys = ["ArrowDown", "PageDown", "End", " "];
+
+        if (downKeys.includes(event.key)) {
+            event.preventDefault();
+            event.stopPropagation();
+            forceScrollToVideoTop();
+        }
+    }
+
+    function handleTouchStart(event) {
+        touchStartY = event.touches[0].clientY;
+    }
+
+    function handleTouchMove(event) {
+        if (state !== "playing" && state !== "waiting") return;
+
+        const currentY = event.touches[0].clientY;
+        const movingDownPage = touchStartY - currentY > 0;
+
+        if (movingDownPage) {
+            event.preventDefault();
+            event.stopPropagation();
+            forceScrollToVideoTop();
+        }
+    }
+
+    video.addEventListener("ended", completeVideo);
+
+    video.addEventListener("timeupdate", () => {
+        updateProgress();
+
+        if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+
+        const remaining = video.duration - video.currentTime;
+
+        if (remaining <= 0.08) {
+            completeVideo();
         }
     });
 
-    scrollVideo.addEventListener("error", () => {
+    video.addEventListener("error", () => {
         console.warn("Video gagal dimuat. Pastikan file berada di assets/videos/scroll-video.mp4");
+
+        state = "completed";
+        shell.classList.remove("is-playing");
+        shell.classList.add("is-completed");
+
+        updateProgress();
+        setOverlayText("Video gagal dimuat", "Scroll ke bawah dibuka.");
     });
 
-    window.addEventListener("resize", () => {
-        setScrollDistance();
-        scrubState.targetProgress = getScrollProgress();
+    shell.addEventListener("click", () => {
+        if (state === "waiting") {
+            playVideo();
+        }
     });
 
-    scrollVideo.load();
+    window.addEventListener("scroll", checkScrollPosition, { passive: true });
+    window.addEventListener("resize", checkScrollPosition);
+    window.addEventListener("wheel", preventDownScroll, { passive: false });
+    window.addEventListener("keydown", handleKeyDown, { passive: false });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
 
-    if (!scrubState.rafId) {
-        renderVideoScrub();
-    }
-}
-
-document.addEventListener("DOMContentLoaded", initScrollVideo);
+    video.load();
+});
