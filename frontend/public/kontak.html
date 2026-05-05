@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak — Gland Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css?v=99">
+</head>
+<body>
+
+    <main class="contact-page">
+        <header class="contact-navbar">
+            <a href="index.html">beranda</a>
+            <a href="karya.html">karya</a>
+            <a href="tentang.html">tentang</a>
+            <a href="blog.html">blog</a>
+        </header>
+
+        <section class="contact-container">
+            <div class="contact-copy">
+                <p class="contact-label">Kontak</p>
+                <h1>Hubungi Saya</h1>
+                <p>
+                    Silakan kirim pesan melalui form ini. Pesan yang masuk nantinya akan
+                    tersimpan dan dapat dilihat melalui dashboard admin.
+                </p>
+
+                <div class="contact-direct">
+                    <a href="mailto:glandjermanoblessedsiahaan@gmail.com">
+                        glandjermanoblessedsiahaan@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="purpose">Tujuan Kontak</label>
+                    <select id="purpose" name="purpose" required>
+                        <option value="">Pilih tujuan kontak</option>
+                        <option value="Kerja sama">Kerja sama</option>
+                        <option value="Project">Project</option>
+                        <option value="Pertanyaan">Pertanyaan</option>
+                        <option value="Rekrutmen">Rekrutmen</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Pesan</label>
+                    <textarea id="message" name="message" rows="6" placeholder="Tulis pesan Anda" required></textarea>
+                </div>
+
+                <button type="submit" class="contact-button">Kirim Pesan</button>
+
+                <p class="form-status" id="form-status"></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="assets/js/contact.js"></script>
+</body>
+</html>

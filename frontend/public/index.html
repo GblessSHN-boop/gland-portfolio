@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gland Jermano Blessed Siahaan — Portfolio</title>
+    <meta name="description" content="Website portfolio pribadi Gland Jermano Blessed Siahaan.">
+
+    <!-- Font sesuai desain Canva -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css?v=99">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=99">
+</head>
+<body>
+
+    <div class="custom-cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <main class="site-main">
+
+        <!-- PAGE 1: HERO -->
+        <section class="hero-section" id="home">
+            <div class="hero-canvas">
+
+                <header class="navbar">
+                    <nav class="nav-menu" aria-label="Navigasi utama">
+                        <a href="karya.html">karya</a>
+                        <a href="tentang.html">tentang</a>
+                        <a href="blog.html">blog</a>
+                        <a href="kontak.html">kontak</a>
+                    </nav>
+                </header>
+
+                <h1 class="hero-title">
+                    Gland Jermano<br>
+                    Blessed Siahaan
+                </h1>
+
+                <p class="hero-intro">
+                    Hi, saya Gland Jermano Blessed Siahaan,<br>
+                    A.K.A The Web Warrior.
+                </p>
+
+                <p class="hero-description">
+                    Saya sedang bertumbuh sebagai web developer muda yang suka mengubah ide<br>
+                    menjadi tampilan digital yang rapi, interaktif, dan bermakna. Bukan cuma pengguna<br>
+                    teknologi, saya ingin menjadi pembuat solusi lewat kode.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="action-link" href="mailto:glandjermanoblessedsiahaan@gmail.com" aria-label="Kirim email ke Gland">
+                        <img class="action-icon-img" src="assets/icons/email-icon.png" alt="Email">
+                        <span>email</span>
+                    </a>
+
+                    <span class="action-divider"></span>
+
+                    <a class="action-link" href="assets/documents/cvglands.pdf" download aria-label="Unduh CV Gland">
+                        <img class="action-icon-img" src="assets/icons/cv-icon.png" alt="CV">
+                        <span>cv</span>
+                    </a>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <img class="hero-browser-img" src="assets/images/hero-browser.png" alt="">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PAGE 2: SCROLL VIDEO -->
+        <section class="scroll-video-section" id="motion">
+            <div class="scroll-video-sticky">
+                <div class="video-stage">
+
+                    <div class="video-title">
+                        <p>Motion Interaction</p>
+                        <h2>Scroll mengontrol video</h2>
+                    </div>
+
+                    <div class="video-shell" id="video-shell">
+                        <video
+                            id="scroll-video"
+                            src="assets/videos/scroll-video.mp4"
+                            muted
+                            playsinline
+                            preload="auto"
+                        ></video>
+
+                        <div class="video-overlay" id="video-overlay">
+                            <span>Scroll untuk menjalankan video</span>
+                            <small>Ke bawah untuk maju, ke atas untuk mundur.</small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="assets/js/custom-cursor.js"></script>
+    <script src="assets/js/scroll-video.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

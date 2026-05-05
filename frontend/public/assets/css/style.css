@@ -1,0 +1,454 @@
+/* ===============================
+   RESET
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "Poppins", Arial, sans-serif;
+    background: #d9d9d9;
+    color: #050505;
+    overflow-x: hidden;
+    cursor: auto;
+}
+
+a,
+button {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:focus,
+a:focus-visible,
+button:focus,
+button:focus-visible {
+    outline: none;
+}
+
+img,
+video,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+.site-main {
+    width: 100%;
+}
+
+/* ===============================
+   CUSTOM CURSOR
+   Untuk sementara dimatikan dulu.
+   Nanti diganti versi particle cursor.
+================================ */
+.custom-cursor,
+.cursor-follower {
+    display: none;
+}
+
+/* ===============================
+   PAGE 1: HERO DESKTOP
+   Target desain: 1366 x 768
+================================ */
+.hero-section {
+    width: 100%;
+    height: 768px;
+    min-height: 768px;
+    background: #d9d9d9;
+    overflow: hidden;
+}
+
+.hero-canvas {
+    position: relative;
+    width: 1366px;
+    height: 768px;
+    margin: 0 auto;
+    background: #d9d9d9;
+}
+
+/* Navbar */
+.navbar {
+    position: absolute;
+    top: 38px;
+    right: 77px;
+    z-index: 5;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 0 38px 13px;
+    border-bottom: 1px solid rgba(5, 5, 5, 0.72);
+}
+
+.nav-menu a {
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    color: #050505;
+    transition: opacity 0.2s ease;
+}
+
+.nav-menu a:hover {
+    opacity: 0.55;
+}
+
+/* Title */
+.hero-title {
+    position: absolute;
+    left: 77px;
+    top: 245px;
+    font-family: "Anton", Impact, sans-serif;
+    font-size: 76px;
+    font-weight: 400;
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    color: #000000;
+}
+
+/* Intro */
+.hero-intro {
+    position: absolute;
+    left: 77px;
+    top: 455px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    color: #050505;
+}
+
+/* Description */
+.hero-description {
+    position: absolute;
+    left: 77px;
+    top: 525px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    color: #050505;
+}
+
+/* Action buttons */
+.hero-actions {
+    position: absolute;
+    left: 77px;
+    top: 652px;
+    display: flex;
+    align-items: center;
+    z-index: 5;
+}
+
+.action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    color: #050505;
+    border: none;
+    background: transparent;
+}
+
+.action-link:hover {
+    opacity: 0.68;
+}
+
+.action-icon-img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.action-divider {
+    width: 1px;
+    height: 38px;
+    background: rgba(5, 5, 5, 0.72);
+    margin-left: 38px;
+    margin-right: 31px;
+}
+
+/* Right visual */
+.hero-visual {
+    position: absolute;
+    left: 900px;
+    top: 205px;
+    width: 350px;
+    z-index: 3;
+}
+
+.hero-browser-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ===============================
+   PAGE 2: SCROLL VIDEO
+================================ */
+.scroll-video-section {
+    position: relative;
+    height: 420vh;
+    background: #050505;
+}
+
+.scroll-video-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-stage {
+    width: min(1220px, calc(100% - 80px));
+    margin: 0 auto;
+}
+
+.video-title {
+    color: #ffffff;
+    margin-bottom: 22px;
+}
+
+.video-title p {
+    margin-bottom: 10px;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.55;
+}
+
+.video-title h2 {
+    font-family: "Anton", Impact, sans-serif;
+    font-size: clamp(40px, 5vw, 76px);
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+}
+
+.video-shell {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 26px;
+    background: #111111;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
+}
+
+.video-shell video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #050505;
+}
+
+.video-overlay {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    z-index: 3;
+    min-height: 72px;
+    padding: 18px 22px;
+    border-radius: 18px;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.52);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.video-overlay span {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.video-overlay small {
+    font-size: 14px;
+    opacity: 0.75;
+}
+
+.video-shell.is-started .video-overlay {
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+}
+
+/* ===============================
+   REDUCED MOTION
+================================ */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .nav-menu a,
+    .action-link,
+    .cursor-follower,
+    .video-overlay {
+        transition: none;
+    }
+}
+
+body {
+    outline: 10px solid red !important;
+}
+
+/* ===============================
+   CONTACT PAGE
+================================ */
+.contact-page {
+    min-height: 100vh;
+    background: #d9d9d9;
+    padding: 38px 70px 70px;
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+.contact-navbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 42px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(5, 5, 5, 0.7);
+}
+
+.contact-navbar a {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+}
+
+.contact-container {
+    min-height: calc(100vh - 130px);
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: 70px;
+}
+
+.contact-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 18px;
+}
+
+.contact-copy h1 {
+    font-family: "Anton", Impact, sans-serif;
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    font-weight: 400;
+    margin-bottom: 28px;
+}
+
+.contact-copy p {
+    max-width: 560px;
+    font-size: 20px;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+}
+
+.contact-direct {
+    margin-top: 34px;
+}
+
+.contact-direct a {
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.contact-form {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.24);
+    border: 1px solid rgba(5, 5, 5, 0.16);
+    border-radius: 26px;
+    padding: 34px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid rgba(5, 5, 5, 0.22);
+    background: #eeeeee;
+    border-radius: 14px;
+    padding: 15px 16px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 15px;
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.contact-button {
+    width: 100%;
+    border: none;
+    border-radius: 999px;
+    background: #050505;
+    color: #ffffff;
+    padding: 16px 22px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.form-status {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-status.success {
+    color: #0b6b2b;
+}
+
+.form-status.error {
+    color: #b00020;
+}
+
+.form-status.loading {
+    color: #333333;
+}
