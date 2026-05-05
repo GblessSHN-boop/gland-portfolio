@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=250">
-    <link rel="stylesheet" href="assets/css/responsive.css?v=250">
+    <link rel="stylesheet" href="assets/css/style.css?v=260">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=260">
 </head>
 <body>
 
@@ -23,10 +23,10 @@
             <div class="hero-canvas">
                 <header class="navbar">
                     <nav class="nav-menu" aria-label="Navigasi utama">
-                        <a href="karya.html">karya</a>
-                        <a href="tentang.html">tentang</a>
-                        <a href="blog.html">blog</a>
-                        <a href="kontak.html">kontak</a>
+                        <a href="karya.html" data-i18n="navWorks">karya</a>
+                        <a href="tentang.html" data-i18n="navAbout">tentang</a>
+                        <a href="blog.html" data-i18n="navBlog">blog</a>
+                        <a href="kontak.html" data-i18n="navContact">kontak</a>
                     </nav>
                 </header>
 
@@ -66,28 +66,26 @@
                             </span>
                         </h1>
 
-                        <p class="hero-intro">
+                        <p class="hero-intro" data-i18n-html="heroIntro">
                             Hi, saya Gland Jermano Blessed Siahaan,<br>
                             A.K.A The Web Warrior.
                         </p>
 
-                        <p class="hero-description">
-                            Saya sedang bertumbuh sebagai web developer muda yang suka mengubah ide
-                            menjadi tampilan digital yang rapi, interaktif, dan bermakna. Bukan cuma pengguna
-                            teknologi, saya ingin menjadi pembuat solusi lewat kode.
+                        <p class="hero-description" data-i18n="heroDescription">
+                            Saya sedang bertumbuh sebagai web developer muda yang suka mengubah ide menjadi tampilan digital yang rapi, interaktif, dan bermakna. Bukan cuma pengguna teknologi, saya ingin menjadi pembuat solusi lewat kode.
                         </p>
 
                         <div class="hero-actions">
                             <a class="action-link" href="https://mail.google.com/mail/?view=cm&fs=1&to=glandjermanoblessedsiahaan@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Kirim email ke Gland">
                                 <img class="action-icon-img" src="assets/icons/email-icon.png" alt="Email">
-                                <span>email</span>
+                                <span data-i18n="emailButton">email</span>
                             </a>
 
                             <span class="action-divider"></span>
 
                             <a class="action-link" href="assets/documents/cvglands.pdf" download aria-label="Unduh CV Gland">
                                 <img class="action-icon-img" src="assets/icons/cv-icon.png" alt="CV">
-                                <span>cv</span>
+                                <span data-i18n="cvButton">cv</span>
                             </a>
                         </div>
                     </div>
@@ -103,8 +101,8 @@
             <div class="scroll-video-sticky">
                 <div class="video-stage">
                     <div class="video-title">
-                        <p>Motion Interaction</p>
-                        <h2>Video berjalan otomatis</h2>
+                        <p data-i18n="videoLabel">Motion Interaction</p>
+                        <h2 data-i18n="videoHeading">Video berjalan otomatis</h2>
                     </div>
 
                     <div class="video-shell" id="video-shell">
@@ -121,11 +119,17 @@
         </section>
 
         <section class="after-video-section" aria-label="Area kosong setelah video"></section>
-
     </main>
 
+    <div class="language-switcher" aria-label="Pilihan bahasa">
+        <button type="button" class="language-button" data-lang-switch="en">EN</button>
+        <span class="language-separator">|</span>
+        <button type="button" class="language-button is-active" data-lang-switch="id">ID</button>
+    </div>
+
     <script src="assets/js/custom-cursor.js"></script>
-    <script src="assets/js/scroll-video.js?v=240"></script>
-    <script src="assets/js/app.js?v=250"></script>
+    <script src="assets/js/scroll-video.js?v=260"></script>
+    <script src="assets/js/app.js?v=260"></script>
+    <script src="assets/js/language-switcher.js?v=260"></script>
 </body>
 </html>
