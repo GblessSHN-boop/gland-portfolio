@@ -671,3 +671,139 @@ svg {
 .hero-section:hover .hero-browser-img {
     filter: drop-shadow(0 28px 28px rgba(0, 0, 0, 0.14));
 }
+
+/* ===============================
+   HERO TITLE GOOEY MARQUEE
+   Stable seamless version
+================================ */
+.hero-title.hero-title-gooey {
+    width: min(820px, 100%);
+    height: auto;
+    color: #000000;
+    background: transparent !important;
+    -webkit-text-fill-color: initial !important;
+    background-clip: initial !important;
+    -webkit-background-clip: initial !important;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.gooey-line {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 0.98em;
+    overflow: hidden;
+}
+
+.gooey-line + .gooey-line {
+    margin-top: -0.02em;
+}
+
+.gooey-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.gooey-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    min-width: max-content;
+    white-space: nowrap;
+    will-change: transform;
+    animation: gooeyTitleMove 18s linear infinite;
+    transform: translate3d(0, 0, 0);
+}
+
+.gooey-copy {
+    display: inline-block;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding-right: 0.38em;
+}
+
+.gooey-layer-blur {
+    z-index: 1;
+    background: transparent;
+    filter: contrast(14);
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000000 8%,
+        #000000 92%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000000 8%,
+        #000000 92%,
+        transparent 100%
+    );
+}
+
+.gooey-layer-blur .gooey-track {
+    filter: blur(0.045em);
+    opacity: 0.72;
+}
+
+.gooey-layer-clear {
+    z-index: 2;
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000000 6%,
+        #000000 94%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        #000000 6%,
+        #000000 94%,
+        transparent 100%
+    );
+}
+
+.gooey-layer-clear .gooey-track {
+    filter: none;
+    opacity: 1;
+}
+
+.gooey-track-reverse {
+    animation-name: gooeyTitleMoveReverse;
+    animation-duration: 19.5s;
+}
+
+@keyframes gooeyTitleMove {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+@keyframes gooeyTitleMoveReverse {
+    from {
+        transform: translate3d(-50%, 0, 0);
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gooey-track,
+    .gooey-track-reverse {
+        animation: none;
+        transform: translate3d(0, 0, 0);
+    }
+}

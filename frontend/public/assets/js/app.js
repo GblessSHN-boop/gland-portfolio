@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initScrollReveal();
 });
 
+/* ===============================
+   HERO IMAGE PARALLAX
+================================ */
 function initHeroParallax() {
     const hero = document.querySelector(".hero-section");
     const browserImage = document.querySelector(".hero-browser-img");
@@ -99,6 +102,9 @@ function initHeroParallax() {
     animate();
 }
 
+/* ===============================
+   MAGNETIC ACTION BUTTONS
+================================ */
 function initMagneticButtons() {
     const buttons = document.querySelectorAll(".action-link");
 
@@ -121,6 +127,9 @@ function initMagneticButtons() {
     });
 }
 
+/* ===============================
+   VIDEO SECTION REVEAL
+================================ */
 function initScrollReveal() {
     const videoStage = document.querySelector(".video-stage");
 
