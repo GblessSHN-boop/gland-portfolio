@@ -6,13 +6,13 @@
     <title>Gland Jermano Blessed Siahaan — Portfolio</title>
     <meta name="description" content="Website portfolio pribadi Gland Jermano Blessed Siahaan.">
 
-    <!-- Font sesuai desain Canva -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=99">
-    <link rel="stylesheet" href="assets/css/responsive.css?v=99">
+    <link rel="stylesheet" href="assets/css/style.css?v=140">
+    <link rel="stylesheet" href="assets/css/responsive.css?v=140">
+
 </head>
 <body>
 
@@ -34,38 +34,42 @@
                     </nav>
                 </header>
 
-                <h1 class="hero-title">
-                    Gland Jermano<br>
-                    Blessed Siahaan
-                </h1>
+                <div class="hero-content">
+                    <div class="hero-left">
+                        <h1 class="hero-title">
+                            Gland Jermano<br>
+                            Blessed Siahaan
+                        </h1>
 
-                <p class="hero-intro">
-                    Hi, saya Gland Jermano Blessed Siahaan,<br>
-                    A.K.A The Web Warrior.
-                </p>
+                        <p class="hero-intro">
+                            Hi, saya Gland Jermano Blessed Siahaan,<br>
+                            A.K.A The Web Warrior.
+                        </p>
 
-                <p class="hero-description">
-                    Saya sedang bertumbuh sebagai web developer muda yang suka mengubah ide<br>
-                    menjadi tampilan digital yang rapi, interaktif, dan bermakna. Bukan cuma pengguna<br>
-                    teknologi, saya ingin menjadi pembuat solusi lewat kode.
-                </p>
+                        <p class="hero-description">
+                            Saya sedang bertumbuh sebagai web developer muda yang suka mengubah ide
+                            menjadi tampilan digital yang rapi, interaktif, dan bermakna. Bukan cuma pengguna
+                            teknologi, saya ingin menjadi pembuat solusi lewat kode.
+                        </p>
 
-                <div class="hero-actions">
-                    <a class="action-link" href="mailto:glandjermanoblessedsiahaan@gmail.com" aria-label="Kirim email ke Gland">
-                        <img class="action-icon-img" src="assets/icons/email-icon.png" alt="Email">
-                        <span>email</span>
-                    </a>
+                        <div class="hero-actions">
+                            <a class="action-link" href="https://mail.google.com/mail/?view=cm&fs=1&to=glandjermanoblessedsiahaan@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Kirim email ke Gland">
+                                <img class="action-icon-img" src="assets/icons/email-icon.png" alt="Email">
+                                <span>email</span>
+                            </a>
 
-                    <span class="action-divider"></span>
+                            <span class="action-divider"></span>
 
-                    <a class="action-link" href="assets/documents/cvglands.pdf" download aria-label="Unduh CV Gland">
-                        <img class="action-icon-img" src="assets/icons/cv-icon.png" alt="CV">
-                        <span>cv</span>
-                    </a>
-                </div>
+                            <a class="action-link" href="assets/documents/cvglands.pdf" download aria-label="Unduh CV Gland">
+                                <img class="action-icon-img" src="assets/icons/cv-icon.png" alt="CV">
+                                <span>cv</span>
+                            </a>
+                        </div>
+                    </div>
 
-                <div class="hero-visual" aria-hidden="true">
-                    <img class="hero-browser-img" src="assets/images/hero-browser.png" alt="">
+                    <div class="hero-visual" aria-hidden="true">
+                        <img class="hero-browser-img" src="assets/images/hero-browser.png" alt="">
+                    </div>
                 </div>
 
             </div>
@@ -92,7 +96,11 @@
 
                         <div class="video-overlay" id="video-overlay">
                             <span>Scroll untuk menjalankan video</span>
-                            <small>Ke bawah untuk maju, ke atas untuk mundur.</small>
+                            <small>Video maju saat scroll ke bawah dan mundur saat scroll ke atas.</small>
+                        </div>
+
+                        <div class="video-progress" aria-hidden="true">
+                            <span id="video-progress-bar"></span>
                         </div>
                     </div>
 
@@ -104,6 +112,6 @@
 
     <script src="assets/js/custom-cursor.js"></script>
     <script src="assets/js/scroll-video.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="assets/js/app.js?v=140"></script>
 </body>
 </html>
