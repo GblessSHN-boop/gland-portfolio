@@ -1,7 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
+﻿document.addEventListener("DOMContentLoaded", () => {
     const translations = {
         id: {
-            pageTitle: "Gland Jermano Blessed Siahaan — Portfolio",
+            pageTitle: "Gland Jermano Blessed Siahaan â€” Portfolio",
             navWorks: "karya",
             navAbout: "tentang",
             navBlog: "blog",
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             emailButton: "email",
             cvButton: "cv",
             videoLabel: "Motion Interaction",
-            videoHeading: "Video berjalan otomatis",
+            videoHeading: "Interaksi frame berbasis scroll",
             semesterLabel: "semester 2 story",
             semesterHeading: "The Semester I<br>Started Building",
             semesterSideNote: "Bukan fase ketika saya paling banyak teori, tetapi fase ketika saya mulai paling banyak membangun.",
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             toolText4: "Cara saya belajar sambil membangun, mengeksplorasi ide, dan mengubah inspirasi menjadi website nyata."
         },
         en: {
-            pageTitle: "Gland Jermano Blessed Siahaan — Portfolio",
+            pageTitle: "Gland Jermano Blessed Siahaan â€” Portfolio",
             navWorks: "works",
             navAbout: "about",
             navBlog: "blog",
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             emailButton: "email",
             cvButton: "cv",
             videoLabel: "Motion Interaction",
-            videoHeading: "Autoplay video experience",
+            videoHeading: "Scroll frame interaction",
             semesterLabel: "semester 2 story",
             semesterHeading: "The Semester I<br>Started Building",
             semesterSideNote: "Not the phase when I learned the most theory, but the phase when I started building the most.",
@@ -123,3 +123,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setLanguage(defaultLanguage);
 });
+

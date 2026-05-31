@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/style.css?v=301">
+    <link rel="stylesheet" href="assets/css/style.css?v=903">
     <link rel="stylesheet" href="assets/css/responsive.css?v=260">
 </head>
 <body>
@@ -97,22 +97,36 @@
             </div>
         </section>
 
-        <section class="scroll-video-section" id="motion">
-            <div class="scroll-video-sticky">
-                <div class="video-stage">
-                    <div class="video-title">
+        <section class="scroll-sequence-section" id="motion">
+            <div class="scroll-sequence-sticky">
+                <div class="sequence-stage">
+                    <div class="sequence-title">
                         <p data-i18n="videoLabel">Motion Interaction</p>
-                        <h2 data-i18n="videoHeading">Video berjalan otomatis</h2>
+                        <h2 data-i18n="videoHeading">Interaksi frame berbasis scroll</h2>
                     </div>
 
-                    <div class="video-shell" id="video-shell">
-                        <video
-                            id="scroll-video"
-                            src="assets/videos/video.mp4?v=8"
-                            muted
-                            playsinline
-                            preload="auto"
-                        ></video>
+                    <div
+                        class="sequence-shell"
+                        id="sequence-shell"
+                        data-frame-count="244"
+                        data-frame-path="assets/images/scroll-interaction/scroll-video-frames/"
+                        data-frame-prefix="frame_"
+                        data-frame-extension="png"
+                        data-frame-padding="4"
+                    >
+                        <img
+                            class="sequence-fallback-image"
+                            id="sequence-fallback-image"
+                            src="assets/images/scroll-interaction/scroll-video-frames/frame_0001.png"
+                            alt="Frame awal scroll interaction"
+                            loading="eager"
+                        >
+
+                        <canvas
+                            class="sequence-canvas"
+                            id="scroll-sequence-canvas"
+                            aria-label="Scroll based frame animation"
+                        ></canvas>
                     </div>
                 </div>
             </div>
@@ -251,9 +265,11 @@
     </div>
 
     <script src="assets/js/custom-cursor.js"></script>
-    <script src="assets/js/scroll-video.js?v=260"></script>
+    <script src="assets/js/scroll-video.js?v=903"></script>
     <script src="assets/js/app.js?v=260"></script>
-    <script src="assets/js/language-switcher.js?v=301"></script>
+    <script src="assets/js/language-switcher.js?v=903"></script>
 </body>
 </html>
+
+
 
