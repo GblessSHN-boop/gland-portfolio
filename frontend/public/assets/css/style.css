@@ -1579,8 +1579,8 @@ body.is-video-locked {
 /* SCROLL SEQUENCE START */
 .scroll-sequence-section {
     position: relative;
-    height: calc(100svh + 2800px);
-    background: #050505;
+    height: calc(100svh + 3000px);
+    background: #000000;
     color: #ffffff;
 }
 
@@ -1594,10 +1594,10 @@ body.is-video-locked {
 }
 
 .sequence-stage {
-    width: min(1220px, calc(100% - 80px));
+    width: min(1240px, calc(100% - 80px));
     height: 100%;
     margin: 0 auto;
-    padding: clamp(30px, 4.5svh, 46px) 0;
+    padding: clamp(28px, 4svh, 44px) 0;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     align-content: center;
@@ -1623,7 +1623,7 @@ body.is-video-locked {
     margin: 0;
     max-width: 1120px;
     font-family: "Anton", Impact, sans-serif;
-    font-size: clamp(50px, 6.4vw, 104px);
+    font-size: clamp(48px, 6.1vw, 98px);
     line-height: 0.9;
     letter-spacing: -0.055em;
     font-weight: 400;
@@ -1634,13 +1634,15 @@ body.is-video-locked {
     position: relative;
     align-self: start;
     width: 100%;
-    height: min(60svh, 610px);
+    height: min(61svh, 620px);
     min-height: 340px;
     border-radius: clamp(22px, 3vw, 38px);
     overflow: hidden;
     background: #020202;
-    box-shadow: 0 34px 120px rgba(0, 0, 0, 0.62);
+    box-shadow: 0 34px 120px rgba(0, 0, 0, 0.66);
     isolation: isolate;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .sequence-shell::before {
@@ -1650,7 +1652,7 @@ body.is-video-locked {
     z-index: 4;
     pointer-events: none;
     background:
-        radial-gradient(circle at 50% 55%, transparent 0%, rgba(0, 0, 0, 0.04) 42%, rgba(0, 0, 0, 0.35) 100%),
+        radial-gradient(circle at 50% 55%, transparent 0%, rgba(0, 0, 0, 0.04) 42%, rgba(0, 0, 0, 0.34) 100%),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.04), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.28));
 }
 
@@ -1665,6 +1667,8 @@ body.is-video-locked {
 }
 
 .sequence-fallback-image,
+#scroll-sequence-fallback,
+#scroll-sequence-canvas,
 .sequence-canvas {
     position: absolute;
     inset: 0;
@@ -1672,31 +1676,38 @@ body.is-video-locked {
     height: 100%;
 }
 
-.sequence-fallback-image {
+.sequence-fallback-image,
+#scroll-sequence-fallback {
     z-index: 1;
-    object-fit: cover;
+    object-fit: contain;
+    background: #020202;
     opacity: 1;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.3s ease;
 }
 
+#scroll-sequence-canvas,
 .sequence-canvas {
     z-index: 3;
     display: block;
-    opacity: 0;
-    transition: opacity 0.25s ease;
+    opacity: 1;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: contents;
 }
 
+.sequence-shell.is-sequence-ready #scroll-sequence-canvas,
 .sequence-shell.is-sequence-ready .sequence-canvas {
     opacity: 1;
 }
 
+.sequence-shell.is-sequence-ready #scroll-sequence-fallback,
 .sequence-shell.is-sequence-ready .sequence-fallback-image {
     opacity: 0;
 }
 
 @media (max-width: 900px) {
     .scroll-sequence-section {
-        height: calc(100svh + 2400px);
+        height: calc(100svh + 2500px);
     }
 
     .sequence-stage {
@@ -1706,7 +1717,7 @@ body.is-video-locked {
     }
 
     .sequence-title h2 {
-        font-size: clamp(44px, 13vw, 78px);
+        font-size: clamp(44px, 13vw, 76px);
         line-height: 0.92;
     }
 

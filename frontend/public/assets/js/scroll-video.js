@@ -1,261 +1,212 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
     const section = document.querySelector(".scroll-sequence-section");
-    const shell = document.getElementById("sequence-shell");
     const canvas = document.getElementById("scroll-sequence-canvas");
+    const fallbackImage = document.getElementById("scroll-sequence-fallback");
 
-    if (!section || !shell || !canvas) return;
+    if (!section || !canvas) return;
 
     const ctx = canvas.getContext("2d", { alpha: false });
-    const frameCount = Math.max(1, Number(shell.dataset.frameCount || 1));
-    const framePath = shell.dataset.framePath || "assets/images/scroll-interaction/scroll-video-frames/";
-    const framePrefix = shell.dataset.framePrefix || "frame_";
-    const frameExtension = shell.dataset.frameExtension || "png";
-    const framePadding = Number(shell.dataset.framePadding || 4);
 
-    const images = new Array(frameCount);
-    const loaded = new Array(frameCount).fill(false);
+    const FRAME_COUNT = 244;
+    const FRAME_FOLDER = "assets/images/scroll-interaction/scroll-video-frames";
+    const SMOOTH_FACTOR = 0.12;
+    const PRELOAD_AHEAD = 10;
+    const PRELOAD_BEHIND = 4;
+    const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
 
-    let targetFrame = 0;
-    let smoothFrame = 0;
-    let lastDrawnFrame = -1;
-    let renderQueued = false;
-    let resizeQueued = false;
-    let progressiveIndex = 0;
-    let progressiveStarted = false;
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let currentFrameIndex = 1;
+    let animationStarted = false;
+    let resizeTimeout = null;
+
+    const frameImages = new Array(FRAME_COUNT + 1);
+    const framePromises = new Array(FRAME_COUNT + 1);
+
+    function getFrameSrc(index) {
+        return `${FRAME_FOLDER}/frame_${String(index).padStart(4, "0")}.png`;
+    }
 
     function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
     }
 
-    function getFrameSrc(index) {
-        const frameNumber = String(index + 1).padStart(framePadding, "0");
-        return `${framePath}${framePrefix}${frameNumber}.${frameExtension}`;
-    }
+    function loadFrame(index) {
+        if (index < 1 || index > FRAME_COUNT) return Promise.resolve(null);
 
-    function loadFrame(index, priority = "auto") {
-        if (index < 0 || index >= frameCount) return null;
-        if (images[index]) return images[index];
-
-        const image = new Image();
-        image.decoding = "async";
-
-        if ("fetchPriority" in image) {
-            image.fetchPriority = priority;
+        if (frameImages[index]) {
+            return Promise.resolve(frameImages[index]);
         }
 
-        image.onload = () => {
-            loaded[index] = true;
-
-            if (index === 0) {
-                drawFrame(0);
-                shell.classList.add("is-sequence-ready");
-            }
-
-            if (index === targetFrame || index === Math.round(smoothFrame)) {
-                requestRender();
-            }
-        };
-
-        image.src = getFrameSrc(index);
-        images[index] = image;
-
-        return image;
-    }
-
-    function loadNearbyFrames(index) {
-        loadFrame(index, "high");
-        loadFrame(index - 1, "high");
-        loadFrame(index + 1, "high");
-        loadFrame(index - 2);
-        loadFrame(index + 2);
-        loadFrame(index - 3);
-        loadFrame(index + 3);
-        loadFrame(index - 4);
-        loadFrame(index + 4);
-    }
-
-    function startProgressivePreload() {
-        if (progressiveStarted) return;
-        progressiveStarted = true;
-
-        function preloadBatch() {
-            let batch = 0;
-
-            while (progressiveIndex < frameCount && batch < 6) {
-                loadFrame(progressiveIndex);
-                progressiveIndex += 1;
-                batch += 1;
-            }
-
-            if (progressiveIndex < frameCount) {
-                if ("requestIdleCallback" in window) {
-                    window.requestIdleCallback(preloadBatch, { timeout: 500 });
-                }
-                else {
-                    window.setTimeout(preloadBatch, 24);
-                }
-            }
+        if (framePromises[index]) {
+            return framePromises[index];
         }
 
-        preloadBatch();
+        framePromises[index] = new Promise((resolve) => {
+            const image = new Image();
+            image.decoding = "async";
+            image.src = getFrameSrc(index);
+
+            image.onload = () => {
+                frameImages[index] = image;
+                resolve(image);
+            };
+
+            image.onerror = () => {
+                resolve(null);
+            };
+        });
+
+        return framePromises[index];
     }
 
-    function setupCanvasSize() {
-        const rect = canvas.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const width = Math.max(1, Math.round(rect.width * dpr));
-        const height = Math.max(1, Math.round(rect.height * dpr));
+    function drawImageContain(image) {
+        if (!image) return;
 
-        if (canvas.width !== width || canvas.height !== height) {
-            canvas.width = width;
-            canvas.height = height;
-        }
+        const cssWidth = canvas.clientWidth;
+        const cssHeight = canvas.clientHeight;
 
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#020202";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
 
-        requestRender(true);
+        const scale = Math.min(cssWidth / image.width, cssHeight / image.height);
+        const drawWidth = image.width * scale;
+        const drawHeight = image.height * scale;
+        const x = (cssWidth - drawWidth) / 2;
+        const y = (cssHeight - drawHeight) / 2;
+
+        ctx.drawImage(image, x, y, drawWidth, drawHeight);
     }
 
-    function drawImageCover(image) {
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const imageWidth = image.naturalWidth || image.width;
-        const imageHeight = image.naturalHeight || image.height;
+    function findNearestLoadedFrame(targetIndex) {
+        if (frameImages[targetIndex]) return targetIndex;
 
-        if (!canvasWidth || !canvasHeight || !imageWidth || !imageHeight) return;
+        for (let offset = 1; offset < FRAME_COUNT; offset++) {
+            const prev = targetIndex - offset;
+            const next = targetIndex + offset;
 
-        const canvasRatio = canvasWidth / canvasHeight;
-        const imageRatio = imageWidth / imageHeight;
-
-        let sourceWidth = imageWidth;
-        let sourceHeight = imageHeight;
-        let sourceX = 0;
-        let sourceY = 0;
-
-        if (imageRatio > canvasRatio) {
-            sourceWidth = imageHeight * canvasRatio;
-            sourceX = (imageWidth - sourceWidth) / 2;
-        }
-        else {
-            sourceHeight = imageWidth / canvasRatio;
-            sourceY = (imageHeight - sourceHeight) / 2;
+            if (prev >= 1 && frameImages[prev]) return prev;
+            if (next <= FRAME_COUNT && frameImages[next]) return next;
         }
 
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvasWidth, canvasHeight);
+        return 1;
     }
 
-    function findDrawableFrame(index) {
-        if (loaded[index]) return index;
+    function renderFrame(index) {
+        const safeIndex = clamp(index, 1, FRAME_COUNT);
+        const availableIndex = findNearestLoadedFrame(safeIndex);
+        const image = frameImages[availableIndex];
 
-        for (let distance = 1; distance < 18; distance++) {
-            const previous = index - distance;
-            const next = index + distance;
+        if (!image) return;
 
-            if (previous >= 0 && loaded[previous]) return previous;
-            if (next < frameCount && loaded[next]) return next;
+        currentFrameIndex = availableIndex;
+        drawImageContain(image);
+
+        if (fallbackImage) {
+            fallbackImage.style.opacity = "0";
+            fallbackImage.style.pointerEvents = "none";
         }
-
-        return loaded[0] ? 0 : -1;
     }
 
-    function drawFrame(index) {
-        const drawableIndex = findDrawableFrame(index);
-
-        if (drawableIndex < 0) return;
-        if (drawableIndex === lastDrawnFrame && !resizeQueued) return;
-
-        const image = images[drawableIndex];
-
-        if (!image || !image.complete) return;
-
-        drawImageCover(image);
-        lastDrawnFrame = drawableIndex;
-        resizeQueued = false;
+    function preloadAround(index) {
+        for (let i = index - PRELOAD_BEHIND; i <= index + PRELOAD_AHEAD; i++) {
+            if (i >= 1 && i <= FRAME_COUNT) {
+                loadFrame(i);
+            }
+        }
     }
 
-    function getScrollProgress() {
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-        const scrollDistance = section.offsetHeight - window.innerHeight;
+    function preloadRemainingInBackground() {
+        let index = 2;
 
-        if (scrollDistance <= 0) return 0;
+        const pump = () => {
+            const end = Math.min(index + 6, FRAME_COUNT);
 
-        const rawProgress = (window.scrollY - sectionTop) / scrollDistance;
+            for (let i = index; i <= end; i++) {
+                loadFrame(i);
+            }
+
+            index = end + 1;
+
+            if (index <= FRAME_COUNT) {
+                if ("requestIdleCallback" in window) {
+                    requestIdleCallback(pump);
+                } else {
+                    setTimeout(pump, 80);
+                }
+            }
+        };
+
+        if ("requestIdleCallback" in window) {
+            requestIdleCallback(pump);
+        } else {
+            setTimeout(pump, 150);
+        }
+    }
+
+    function updateCanvasSize() {
+        const width = Math.max(1, Math.round(canvas.clientWidth));
+        const height = Math.max(1, Math.round(canvas.clientHeight));
+
+        canvas.width = Math.round(width * DPR);
+        canvas.height = Math.round(height * DPR);
+
+        renderFrame(currentFrameIndex);
+    }
+
+    function getSectionProgress() {
+        const rect = section.getBoundingClientRect();
+        const sectionTop = window.scrollY + rect.top;
+        const scrollableDistance = Math.max(section.offsetHeight - window.innerHeight, 1);
+        const rawProgress = (window.scrollY - sectionTop) / scrollableDistance;
+
         return clamp(rawProgress, 0, 1);
     }
 
-    function updateTargetFrame() {
-        const progress = getScrollProgress();
+    function animate() {
+        targetProgress = getSectionProgress();
 
-        targetFrame = Math.round(progress * (frameCount - 1));
-        targetFrame = clamp(targetFrame, 0, frameCount - 1);
+        currentProgress += (targetProgress - currentProgress) * SMOOTH_FACTOR;
 
-        loadNearbyFrames(targetFrame);
-        requestRender();
-    }
-
-    function renderLoop() {
-        renderQueued = false;
-
-        const difference = targetFrame - smoothFrame;
-        smoothFrame += difference * 0.2;
-
-        if (Math.abs(difference) < 0.06) {
-            smoothFrame = targetFrame;
+        if (Math.abs(targetProgress - currentProgress) < 0.0005) {
+            currentProgress = targetProgress;
         }
 
-        const frameToDraw = clamp(Math.round(smoothFrame), 0, frameCount - 1);
+        const frameFloat = currentProgress * (FRAME_COUNT - 1);
+        const targetFrame = clamp(Math.round(frameFloat) + 1, 1, FRAME_COUNT);
 
-        drawFrame(frameToDraw);
+        preloadAround(targetFrame);
+        renderFrame(targetFrame);
 
-        if (Math.abs(targetFrame - smoothFrame) > 0.06) {
-            requestRender();
+        requestAnimationFrame(animate);
+    }
+
+    function handleResize() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updateCanvasSize();
+        }, 120);
+    }
+
+    loadFrame(1).then((firstFrame) => {
+        if (!firstFrame) return;
+
+        updateCanvasSize();
+        drawImageContain(firstFrame);
+        preloadAround(1);
+        preloadRemainingInBackground();
+
+        if (!animationStarted) {
+            animationStarted = true;
+            requestAnimationFrame(animate);
         }
-    }
-
-    function requestRender(force = false) {
-        if (force) {
-            lastDrawnFrame = -1;
-            resizeQueued = true;
-        }
-
-        if (renderQueued) return;
-
-        renderQueued = true;
-        window.requestAnimationFrame(renderLoop);
-    }
-
-    function onScroll() {
-        updateTargetFrame();
-        startProgressivePreload();
-    }
-
-    function onResize() {
-        setupCanvasSize();
-        updateTargetFrame();
-    }
-
-    loadFrame(0, "high");
-    loadFrame(1, "high");
-    loadFrame(2, "high");
-
-    setupCanvasSize();
-    updateTargetFrame();
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize);
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                startProgressivePreload();
-                updateTargetFrame();
-            }
-        });
-    }, {
-        threshold: 0.05
     });
 
-    observer.observe(section);
+    window.addEventListener("resize", handleResize, { passive: true });
 });
