@@ -130,23 +130,10 @@ svg {
 }
 
 /* Intro */
-.hero-intro {
-    max-width: 720px;
-    font-size: clamp(18px, 1.7vw, 24px);
-    font-weight: 500;
-    line-height: 0.98;
-    letter-spacing: -0.045em;
-    margin-bottom: clamp(22px, 3.2vh, 30px);
-}
+
 
 /* Description */
-.hero-description {
-    max-width: 780px;
-    font-size: clamp(18px, 1.65vw, 23px);
-    font-weight: 500;
-    line-height: 1.02;
-    letter-spacing: -0.045em;
-}
+
 
 /* Actions */
 .hero-actions {
@@ -524,13 +511,9 @@ svg {
         animation: heroTitleIn 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
     }
 
-    .page-loaded .hero-intro {
-        animation: textRevealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.46s both;
-    }
+    
 
-    .page-loaded .hero-description {
-        animation: textRevealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.58s both;
-    }
+    
 
     .page-loaded .hero-actions {
         animation: textRevealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both;
@@ -1734,3 +1717,18 @@ body.is-video-locked {
     }
 }
 /* SCROLL SEQUENCE END */
+
+.hero-intro,
+.hero-description {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.hero-title {
+    margin-bottom: 0 !important;
+}
+
+.hero-actions {
+    margin-top: clamp(26px, 3.6vh, 36px) !important;
+}

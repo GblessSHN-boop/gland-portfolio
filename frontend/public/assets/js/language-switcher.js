@@ -1,13 +1,11 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
     const translations = {
         id: {
-            pageTitle: "Gland Jermano Blessed Siahaan â€” Portfolio",
+            pageTitle: "Gland Jermano Blessed Siahaan - Portfolio",
             navWorks: "karya",
             navAbout: "tentang",
             navBlog: "blog",
             navContact: "kontak",
-            heroIntro: "Hi, saya Gland Jermano Blessed Siahaan,<br>A.K.A The Web Warrior.",
-            heroDescription: "Saya sedang bertumbuh sebagai web developer muda yang suka mengubah ide menjadi tampilan digital yang rapi, interaktif, dan bermakna. Bukan cuma pengguna teknologi, saya ingin menjadi pembuat solusi lewat kode.",
             emailButton: "email",
             cvButton: "cv",
             videoLabel: "Motion Interaction",
@@ -38,13 +36,11 @@
             toolText4: "Cara saya belajar sambil membangun, mengeksplorasi ide, dan mengubah inspirasi menjadi website nyata."
         },
         en: {
-            pageTitle: "Gland Jermano Blessed Siahaan â€” Portfolio",
+            pageTitle: "Gland Jermano Blessed Siahaan - Portfolio",
             navWorks: "works",
             navAbout: "about",
             navBlog: "blog",
             navContact: "contact",
-            heroIntro: "Hi, I am Gland Jermano Blessed Siahaan,<br>A.K.A The Web Warrior.",
-            heroDescription: "I am growing as a young web developer who enjoys turning ideas into clean, interactive, and meaningful digital interfaces. I do not only want to use technology, I want to build solutions through code.",
             emailButton: "email",
             cvButton: "cv",
             videoLabel: "Motion Interaction",
