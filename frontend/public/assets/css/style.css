@@ -1732,3 +1732,222 @@ body.is-video-locked {
 .hero-actions {
     margin-top: clamp(26px, 3.6vh, 36px) !important;
 }
+:root {
+    --font-hero: "GlandHero", Impact, sans-serif;
+    --font-heading: "GlandHeading", "Anton", sans-serif;
+    --font-label: "GlandLabel", "Poppins", Arial, sans-serif;
+    --font-body: "GlandBody", "Poppins", Arial, sans-serif;
+    --font-nav: "GlandNav", "Poppins", Arial, sans-serif;
+    --font-button: "GlandButton", "Poppins", Arial, sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+}
+
+.hero-title,
+.marquee_text,
+.masked-text {
+    font-family: var(--font-hero);
+}
+
+.sequence-title h2,
+.semester-heading,
+.video-heading {
+    font-family: var(--font-heading);
+}
+
+.section-label,
+.semester-label,
+.semester-process-label,
+.tool-label,
+.video-label {
+    font-family: var(--font-label);
+}
+
+.main-nav a,
+.language-button {
+    font-family: var(--font-nav);
+}
+
+.action-link,
+.process-number,
+.tool-card h3 {
+    font-family: var(--font-button);
+}
+
+p,
+.semester-copy p,
+.tool-text,
+.semester-side-note {
+    font-family: var(--font-body);
+}
+
+.hero-title,
+.hero-title *,
+.hero-title .marquee_text,
+.hero-title .masked-text {
+    font-family: var(--font-heading) !important;
+    font-size: clamp(58px, 8.2vw, 128px) !important;
+    line-height: 0.94 !important;
+    letter-spacing: -0.035em !important;
+    font-weight: 400 !important;
+}
+
+.hero-title {
+    width: min(980px, 100%) !important;
+    max-width: 980px !important;
+    margin-bottom: clamp(26px, 3.5vw, 42px) !important;
+    overflow: visible !important;
+}
+
+.hero-title br {
+    display: block !important;
+}
+
+.hero-copy,
+.hero-content,
+.hero-left,
+.hero-main {
+    overflow: visible !important;
+}
+
+.hero-actions {
+    margin-top: 0 !important;
+    gap: clamp(22px, 3vw, 34px) !important;
+}
+
+.action-link {
+    font-size: clamp(18px, 1.45vw, 24px) !important;
+    line-height: 1 !important;
+}
+
+.sequence-title h2,
+.video-heading {
+    font-family: var(--font-heading) !important;
+}
+
+.marquee {
+    overflow: visible !important;
+}
+
+.marquee_text {
+    font-family: var(--font-heading) !important;
+}
+
+.hero-title,
+.hero-title *,
+.hero-title .marquee_text,
+.hero-title .masked-text {
+    font-family: var(--font-heading) !important;
+    font-size: clamp(50px, 7.1vw, 112px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: 0.018em !important;
+    word-spacing: 0.12em !important;
+    font-weight: 400 !important;
+}
+
+.hero-title {
+    width: min(1120px, 100%) !important;
+    max-width: 1120px !important;
+    margin-bottom: clamp(30px, 3.8vw, 48px) !important;
+    overflow: visible !important;
+}
+
+.hero-actions {
+    margin-top: 4px !important;
+    gap: clamp(26px, 3.4vw, 42px) !important;
+}
+
+.action-link {
+    letter-spacing: -0.015em !important;
+}
+
+.semester-heading {
+    font-family: var(--font-heading) !important;
+    font-size: clamp(48px, 6.4vw, 96px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.045em !important;
+    word-spacing: 0.18em !important;
+    font-weight: 400 !important;
+}
+
+.sequence-title h2,
+.video-heading {
+    font-family: var(--font-heading) !important;
+    letter-spacing: 0.038em !important;
+    word-spacing: 0.16em !important;
+    line-height: 1.05 !important;
+    font-weight: 400 !important;
+}
+
+.semester-label,
+.section-label,
+.video-label,
+.semester-process-label,
+.tool-label {
+    letter-spacing: 0.22em !important;
+}
+
+.hero-title,
+.hero-title *,
+.hero-title .marquee_text,
+.hero-title .masked-text {
+    letter-spacing: 0.018em !important;
+    word-spacing: 0.12em !important;
+}
+
+.semester-heading {
+    font-family: var(--font-heading) !important;
+    font-size: clamp(46px, 5.8vw, 86px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: 0.006em !important;
+    word-spacing: 0.055em !important;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    max-width: 920px !important;
+}
+
+.sequence-title h2,
+.video-heading {
+    font-family: var(--font-heading) !important;
+    font-size: clamp(52px, 6.6vw, 104px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: 0.004em !important;
+    word-spacing: 0.06em !important;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    max-width: 1220px !important;
+}
+
+.semester-label,
+.section-label,
+.video-label,
+.semester-process-label,
+.tool-label {
+    font-family: var(--font-label) !important;
+    letter-spacing: 0.22em !important;
+    word-spacing: 0.12em !important;
+}
+
+.semester-side-note {
+    max-width: 380px !important;
+    line-height: 1.55 !important;
+}
+
+@media (max-width: 900px) {
+    .semester-heading {
+        font-size: clamp(42px, 12vw, 76px) !important;
+        line-height: 1.04 !important;
+        letter-spacing: 0.002em !important;
+        word-spacing: 0.04em !important;
+    }
+
+    .sequence-title h2,
+    .video-heading {
+        font-size: clamp(46px, 13vw, 84px) !important;
+        line-height: 1.02 !important;
+        letter-spacing: 0 !important;
+        word-spacing: 0.04em !important;
+    }
+}

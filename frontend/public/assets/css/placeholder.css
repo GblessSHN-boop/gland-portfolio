@@ -923,3 +923,60 @@ button {
         transition-duration: 0.01ms !important;
     }
 }
+:root {
+    --font-hero: "GlandHero", Impact, sans-serif;
+    --font-heading: "GlandHeading", "Anton", sans-serif;
+    --font-label: "GlandLabel", "Poppins", Arial, sans-serif;
+    --font-body: "GlandBody", "Poppins", Arial, sans-serif;
+    --font-nav: "GlandNav", "Poppins", Arial, sans-serif;
+    --font-button: "GlandButton", "Poppins", Arial, sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+}
+
+.placeholder-title {
+    font-family: var(--font-heading);
+}
+
+.placeholder-logo,
+.status-card h2,
+.game-head h3,
+.info-card h3 {
+    font-family: var(--font-heading);
+}
+
+.placeholder-kicker,
+.status-label,
+.status-badge,
+.game-head p,
+.info-card p,
+.score-box span {
+    font-family: var(--font-label);
+}
+
+.placeholder-menu a {
+    font-family: var(--font-nav);
+}
+
+.placeholder-button,
+.game-control button {
+    font-family: var(--font-button);
+}
+
+.placeholder-desc,
+.status-step p,
+.game-control span,
+.info-card span {
+    font-family: var(--font-body);
+}
+
+.placeholder-title,
+.status-card h2,
+.game-head h3,
+.info-card h3 {
+    letter-spacing: 0.035em !important;
+    word-spacing: 0.14em !important;
+    line-height: 1.08 !important;
+}

@@ -1,0 +1,47 @@
+﻿@font-face {
+    font-family: "GlandHero";
+    src: url("../fonts/hero/hero.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "GlandHeading";
+    src: url("../fonts/heading/heading.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "GlandLabel";
+    src: url("../fonts/label/label.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "GlandBody";
+    src: url("../fonts/body/body.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "GlandNav";
+    src: url("../fonts/nav/nav.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "GlandButton";
+    src: url("../fonts/button/button.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}

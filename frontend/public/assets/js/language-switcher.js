@@ -10,8 +10,8 @@
             cvButton: "cv",
             videoLabel: "Motion Interaction",
             videoHeading: "Interaksi frame berbasis scroll",
-            semesterLabel: "semester 2 story",
-            semesterHeading: "The Semester I<br>Started Building",
+            semesterLabel: "awal mula",
+            semesterHeading: "Cerita Dimulai<br>dari Semester II",
             semesterSideNote: "Bukan fase ketika saya paling banyak teori, tetapi fase ketika saya mulai paling banyak membangun.",
             semesterParagraph1: "Di semester 2, saya mulai lebih sering vibe coding. Bukan karena saya tidak paham flow atau alur, tetapi karena saya merasa lebih cepat belajar ketika ide langsung saya ubah menjadi sesuatu yang nyata.",
             semesterParagraph2: "Saya masih punya banyak waktu untuk explore. Karena itu, saya lebih senang mencoba berbagai ide, melihat hasilnya langsung di browser, lalu memperbaikinya sedikit demi sedikit sampai jadi website yang benar-benar terasa hidup.",
@@ -45,8 +45,8 @@
             cvButton: "cv",
             videoLabel: "Motion Interaction",
             videoHeading: "Scroll frame interaction",
-            semesterLabel: "semester 2 story",
-            semesterHeading: "The Semester I<br>Started Building",
+            semesterLabel: "awal mula",
+            semesterHeading: "Cerita Dimulai<br>dari Semester II",
             semesterSideNote: "Not the phase when I learned the most theory, but the phase when I started building the most.",
             semesterParagraph1: "In semester 2, I started doing vibe coding more often. Not because I do not understand flow or logic, but because I learn faster when I turn ideas directly into something real.",
             semesterParagraph2: "I still have a lot of time to explore. That is why I enjoy trying many ideas, seeing the result directly in the browser, and refining them little by little until they become websites that truly feel alive.",
@@ -119,4 +119,5 @@
 
     setLanguage(defaultLanguage);
 });
+
 
