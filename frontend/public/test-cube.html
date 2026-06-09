@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Interaction Test - Gland Portfolio</title>
+
+    <link rel="stylesheet" href="assets/css/font-system.css?v=2">
+    <link rel="stylesheet" href="assets/css/test-cube.css?v=2">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.166.1/build/three.module.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <main class="cube-page">
+        <a href="index.html" class="back-link">back</a>
+
+        <section class="cube-copy">
+            <span>3D LOGIC TEST</span>
+            <h1>Floating<br>Web Object</h1>
+            <p>
+                Ini halaman test untuk menguji object 3D full screen, drag interaction, floating motion, dan return motion sebelum masuk ke homepage.
+            </p>
+        </section>
+
+        <div id="cubeCanvas" class="cube-canvas" aria-label="3D interaction canvas"></div>
+        <div class="cube-hint">DRAG OBJECT</div>
+    </main>
+
+    <script type="module" src="assets/js/test-cube.js?v=4"></script>
+</body>
+</html>
+
+
