@@ -1,0 +1,46 @@
+﻿.hero-three-canvas {
+    position: absolute;
+    top: 18%;
+    right: clamp(-120px, -4vw, -55px);
+    width: clamp(560px, 46vw, 820px);
+    height: clamp(460px, 58vh, 680px);
+    z-index: 8;
+    pointer-events: auto;
+    touch-action: none;
+    cursor: grab;
+}
+
+.hero-three-canvas:active {
+    cursor: grabbing;
+}
+
+.hero-three-canvas canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.hero-visual,
+.hero-browser-img {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.hero-title,
+.hero-actions,
+.language-switcher {
+    z-index: 12 !important;
+}
+
+@media (max-width: 900px) {
+    .hero-three-canvas {
+        top: 20%;
+        right: -22vw;
+        width: 92vw;
+        height: 54vh;
+        opacity: 0.45;
+        pointer-events: none;
+    }
+}
+
