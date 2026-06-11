@@ -1,0 +1,29 @@
+﻿.hero-video-card {
+    position: absolute;
+    left: clamp(42px, 5.8vw, 86px);
+    top: clamp(20px, 3vh, 36px);
+    width: clamp(560px, 52vw, 900px);
+    height: clamp(126px, 18vh, 190px);
+    background: #252525;
+    border-radius: 0;
+    z-index: 7;
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+.hero-video-card video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+@media (max-width: 900px) {
+    .hero-video-card {
+        left: 18px;
+        top: 92px;
+        width: calc(100% - 36px);
+        height: 112px;
+    }
+}
+
